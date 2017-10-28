@@ -18,7 +18,7 @@ connection.connect(function (err) {
 
     console.log("connected as id" + connection.threadId );
 
-    connection.query("SELECT item_id, product_name, price FROM bamazon.products", function(err,results, fields) {
+    connection.query("SELECT item_id, product_name, price FROM bamazon.products", function(err, results, fields) {
         console.log("ITEMS FOR SALE:");
         console.log(results);
     });
@@ -37,12 +37,11 @@ connection.connect(function (err) {
       }
     ]).then(function(answers) {
 
-        var bidID = answers.biddingID;
-
-        var unitNum = answers.units;
+        var bidId = answers.biddingID;
         
-        connection.query("SELECT IF (EXISTS(SELECT * FROM bamazon.products WHERE `item_id` =  "+ bidID + ")), ", function (err, results, fields) {
-            console.log(results);
+        connection.query("SELECT item_id, product_name, price FROM bamazon.products WHERE 'item_id' = ?", bidId, function(err, res, fields) {
+            
+            console.log(res);        
         });
 
         console.log(answers);
@@ -53,7 +52,4 @@ connection.connect(function (err) {
 
     });  
 
-connection.end();
-    
-
-});
+connection.end();    });
